@@ -65,5 +65,10 @@ async def load_userName(uid, cookie):
         async with session.get(url) as response:
             res_text = await response.text()
             dict_data = json.loads(res_text)
-            name = dict_data['data']['user']['screen_name']
-            return name
+            try:
+                name = dict_data['data']['user']['screen_name']
+            except KeyError:
+                print("获取失败：uid错误或cookie失效")
+                exit()
+            else:
+                return name
