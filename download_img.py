@@ -16,7 +16,9 @@ async def downloadImg(pidList, downloadDir):
     
     print('------ 完成 ------\n下载错误列表:', failList)
 
+
 async def loadImg(pid, downloadDir, i):
+    # 使用aiohttp下载文件
     has_error = False
     try:
         url = 'https://wx3.sinaimg.cn/large/' + pid + '.jpg'
@@ -26,7 +28,7 @@ async def loadImg(pid, downloadDir, i):
                     content = await response.read()
                     with open(downloadDir + '/' + pid + '.jpg', 'wb') as f:
                         f.write(content)
-                    print('Picture', i, ':', pid, 'OK!')
+                    print(f'{i}:', pid, 'OK!')
                 else:
                     has_error = True
     except Exception:
@@ -38,7 +40,7 @@ async def loadImg(pid, downloadDir, i):
                         content = await response.read()
                         with open(downloadDir + '/' + pid + '.bmp', 'wb') as f:
                             f.write(content)
-                        print('Picture:', pid, 'OK!')
+                        print(f'{i}:', pid, 'OK!')
                     else:
                         has_error = True
         except Exception:
@@ -50,7 +52,7 @@ async def loadImg(pid, downloadDir, i):
                             content = await response.read()
                             with open(downloadDir + '/' + pid + '.gif', 'wb') as f:
                                 f.write(content)
-                            print('Picture:', pid, 'OK!')
+                            print(f'{i}:', pid, 'OK!')
                         else:
                             has_error = True
             except Exception:
@@ -62,7 +64,7 @@ async def loadImg(pid, downloadDir, i):
                                 content = await response.read()
                                 with open(downloadDir + '/' + pid + '.png', 'wb') as f:
                                     f.write(content)
-                                print('Picture:', pid, 'OK!')
+                                print(f'{i}:', pid, 'OK!')
                             else:
                                 has_error = True
                 except Exception:
@@ -74,7 +76,7 @@ async def loadImg(pid, downloadDir, i):
                                     content = await response.read()
                                     with open(downloadDir + '/' + pid + '.jpg', 'wb') as f:
                                         f.write(content)
-                                    print('Picture:', pid, 'OK!')
+                                    print(f'{i}:', pid, 'OK!')
                                 else:
                                     has_error = True
                     except Exception:

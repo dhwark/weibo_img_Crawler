@@ -33,5 +33,6 @@ async def main():
     return (pidList, downloadDir)
 
 
-(pidList, downloadDir) = asyncio.run(main())
-asyncio.run(downloadImg(pidList, downloadDir))
+if __name__ == "__main__":
+    (pidList, downloadDir) = asyncio.run(main())
+    asyncio.run(downloadImg(pidList, downloadDir))

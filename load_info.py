@@ -62,6 +62,7 @@ async def load_userName(uid, cookie):
         'x-xsrf-token': 'ay1cbLKwIOjHA2k1UZFupGJ_'
     }
     async with aiohttp.ClientSession(headers=headers) as session:
+        # 客户端session.get拿到响应
         async with session.get(url) as response:
             res_text = await response.text()
             dict_data = json.loads(res_text)
