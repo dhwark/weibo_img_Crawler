@@ -1,23 +1,29 @@
 import aiohttp
 import asyncio
+from tqdm import tqdm
 
 
 async def downloadImg(pidList, downloadDir):
     # 协程任务的入口函数
     failList = []
 
-    tasks = [loadImg(pid, downloadDir, i) for i, pid in enumerate(pidList)]
-    # 通过pid遍历列表生成tasks
-    results = await asyncio.gather(*tasks)
+    # 创建总进度条
+    with tqdm(total=len(pidList), desc="下载中") as pbar:
+        tasks = [loadImg(pid, downloadDir, pbar) for pid in pidList]
+
+        # 通过pid遍历列表生成tasks
+        results = await asyncio.gather(*tasks)
+        
+        for i, has_error in enumerate(results):
+            if has_error:
+                failList.append(pidList[i])
     
-    for i, has_error in enumerate(results):
-        if has_error:
-            failList.append(pidList[i])
-    
-    print('------ 完成 ------\n下载错误列表:', failList)
+    print('\n------ 下载完成 ------')
+    if failList:
+        print('\n下载错误列表:', failList)
 
 
-async def loadImg(pid, downloadDir, i):
+async def loadImg(pid, downloadDir, pbar):
     # 使用aiohttp下载文件
     has_error = False
     try:
@@ -28,7 +34,7 @@ async def loadImg(pid, downloadDir, i):
                     content = await response.read()
                     with open(downloadDir + '/' + pid + '.jpg', 'wb') as f:
                         f.write(content)
-                    print(f'{i}:', pid, 'OK!')
+                    pbar.update(1)  # 更新子进度条
                 else:
                     has_error = True
     except Exception:
@@ -40,7 +46,7 @@ async def loadImg(pid, downloadDir, i):
                         content = await response.read()
                         with open(downloadDir + '/' + pid + '.bmp', 'wb') as f:
                             f.write(content)
-                        print(f'{i}:', pid, 'OK!')
+                        pbar.update(1)
                     else:
                         has_error = True
         except Exception:
@@ -52,7 +58,7 @@ async def loadImg(pid, downloadDir, i):
                             content = await response.read()
                             with open(downloadDir + '/' + pid + '.gif', 'wb') as f:
                                 f.write(content)
-                            print(f'{i}:', pid, 'OK!')
+                            pbar.update(1)
                         else:
                             has_error = True
             except Exception:
@@ -64,7 +70,7 @@ async def loadImg(pid, downloadDir, i):
                                 content = await response.read()
                                 with open(downloadDir + '/' + pid + '.png', 'wb') as f:
                                     f.write(content)
-                                print(f'{i}:', pid, 'OK!')
+                                pbar.update(1)
                             else:
                                 has_error = True
                 except Exception:
@@ -76,7 +82,7 @@ async def loadImg(pid, downloadDir, i):
                                     content = await response.read()
                                     with open(downloadDir + '/' + pid + '.jpg', 'wb') as f:
                                         f.write(content)
-                                    print(f'{i}:', pid, 'OK!')
+                                    pbar.update(1)
                                 else:
                                     has_error = True
                     except Exception:
