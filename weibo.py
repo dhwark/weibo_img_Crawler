@@ -4,6 +4,8 @@ import os
 import asyncio
 
 
+# 工作目录改为文件所在目录
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
 def loadUserInfo():
     # 从文件中读取配置项
     file = open('userinfo.ini','r',encoding='utf-8')
@@ -32,6 +34,9 @@ async def main():
     print('数量:',len(pidList))
     return (pidList, downloadDir)
 
+def import_run():
+    (pidList, downloadDir) = asyncio.run(main())
+    asyncio.run(downloadImg(pidList, downloadDir))
 
 if __name__ == "__main__":
     (pidList, downloadDir) = asyncio.run(main())
