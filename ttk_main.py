@@ -66,6 +66,7 @@ class WinGUI(Tk):
         super().__init__()
         self.__win()
         self.__ttk_style()
+        self.__tk_lable_logo = self.__tk_lable_logo()
         self.__tk_lable_title = self.__tk_lable_title()
         self.__tk_lable_id = self.__tk_lable_id()
         self.__tk_entry_id = self.__tk_entry_id()
@@ -103,47 +104,59 @@ class WinGUI(Tk):
         # 透明度
         self.attributes("-alpha", 0.95)
 
+    # 放一张图片在标题上
+    def __tk_lable_logo(self):
+        # 打开图片
+        image = Image.open("static/weibo_icon.ico")  # 替换为你的图片文件路径
+        image = image.resize((40, 40))
+        # 将图像转换为PhotoImage以便在Tkinter中使用
+        self.photo = ImageTk.PhotoImage(image)
+        logo = Label(image=self.photo)
+        logo.place(x=180, y=10)
+        return logo
+
+
     def __tk_lable_title(self):
         # 标题
         title_text = Label(text="微博图片批量下载器", style="Label")
-        title_text.place(x=100, y=20)
+        title_text.place(x=100, y=50)
         return title_text
 
     def __tk_lable_id(self):
         user_id = Label(text="ID:", style="TLabel")
         label_width = user_id.winfo_reqwidth()  # 获取标签的宽度
-        user_id.place(x=150 - label_width, y=80)
+        user_id.place(x=150 - label_width, y=90)
         return user_id
 
     def __tk_entry_id(self):
         global user_id_entry
         user_id_entry = Entry(width=20)
-        user_id_entry.place(x=170, y=80)
+        user_id_entry.place(x=170, y=90)
         return user_id_entry
 
     def __tk_lable_cookie(self):
         cookie = Label(text="cookie:", style="TLabel")
         # 使用place方法设置标签的位置并实现右对齐
         label_width = cookie.winfo_reqwidth()  # 获取标签的宽度
-        cookie.place(x=150 - label_width, y=130)
+        cookie.place(x=150 - label_width, y=140)
         return cookie
 
     def __tk_entry_cookie(self):
         global cookie_entry
         cookie_entry = Entry(width=25)
-        cookie_entry.place(x=170, y=130)
+        cookie_entry.place(x=170, y=140)
         return cookie_entry
 
     def __tk_lable_path(self):
         path = Label(text="下载地址:", style="TLabel")
         label_width = path.winfo_reqwidth()  # 获取标签的宽度
-        path.place(x=150 - label_width, y=180)
+        path.place(x=150 - label_width, y=190)
         return path
 
     def __tk_entry_path(self):
         global path_entry
         path_entry = Entry(width=20)
-        path_entry.place(x=170, y=180)
+        path_entry.place(x=170, y=190)
         return path_entry
 
     def __tk_button_start(self):

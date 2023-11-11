@@ -1,4 +1,7 @@
 __pycache__
 myvenv
 output
+build
+dist
 userinfo.ini
+ttk_main.spec
