@@ -4,4 +4,5 @@ output
 build
 dist
 userinfo.ini
+install.iss
 ttk_main.spec
