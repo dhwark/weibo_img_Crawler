@@ -1,6 +1,5 @@
 from tkinter import *
 from tkinter.ttk import *
-import subprocess
 import os
 import threading
 from PIL import Image, ImageTk
