@@ -8,16 +8,16 @@ import asyncio
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 def loadUserInfo():
     # 从文件中读取配置项
-    file = open('userinfo.ini','r',encoding='utf-8')
-    for line in file.readlines():
-        if line.startswith('uid='): # 对字符串进行筛选切片
-            uid = line.strip()[4:]
-        if line.startswith('cookie='):
-            cookie = line.strip()[7:]
-        if line.startswith('downloadDirRoot='):
-            downloadDirRoot = line.strip()[16:]
-    print('\nuid:',uid,'\ncookie:',cookie,'\ndownloadDirRoot:',downloadDirRoot)
-    return (uid,cookie,downloadDirRoot)
+    with open('userinfo.ini','r',encoding='utf-8') as file:
+        for line in file.readlines():
+            if line.startswith('uid='): # 对字符串进行筛选切片
+                uid = line.strip()[4:]
+            if line.startswith('cookie='):
+                cookie = line.strip()[7:]
+            if line.startswith('downloadDirRoot='):
+                downloadDirRoot = line.strip()[16:]
+        print('\nuid:',uid,'\ncookie:',cookie,'\ndownloadDirRoot:',downloadDirRoot)
+        return (uid,cookie,downloadDirRoot)
 
 
 (uid,cookie,downloadDirRoot)=loadUserInfo() # 调用函数，获取返回值元组，多元素的元组解包
